@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История одного штурма</title>
+    <style>
+        /* === ТЕМНЫЙ ФОН === */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
+
+        /* === ОСНОВНОЙ КОНТЕЙНЕР === */
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 40px;
+            gap: 40px;
+            box-sizing: border-box;
+        }
+
+        /* === ЛЕВАЯ ЧАСТЬ === */
+        .left-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            flex-shrink: 0;
+        }
+
+        /* === КАРТИНКА === */
+        .logo {
+            opacity: 0;
+            transform: translateX(-300px);
+            animation: slideInLogo 1.2s ease-out forwards;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            max-height: 180px;
+            width: auto;
+            display: block;
+        }
+
+        /* === ТЕКСТ === */
+        .text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transform: translateX(-100px);
+            animation: slideInText 1s ease-out forwards;
+            animation-delay: 1.2s;
+            padding-top: 5px;
+        }
+
+        .text-block .line {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            letter-spacing: 3px;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        /* === ПРАВАЯ ЧАСТЬ (окно новостей) === */
+        .news-container {
+            flex: 0 0 420px;
+            max-width: 420px;
+            height: 75vh;
+            min-height: 350px;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.06), inset 0 0 60px rgba(255, 255, 255, 0.02);
+            opacity: 0;
+            animation: slideInLogo 1.2s ease-out forwards;
+            animation-delay: 0.3s;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .news-header h2 {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .edit-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #dddddd;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .edit-toggle:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .news-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .news-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .news-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .news-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+        }
+
+        .news-item {
+            color: #eeeeee;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            line-height: 1.5;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-date {
+            color: #99aacc;
+            font-size: 0.75rem;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* === ПАНЕЛЬ РЕДАКТИРОВАНИЯ === */
+        .edit-panel {
+            display: none;
+            margin-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+        }
+
+        .edit-panel.active {
+            display: block;
+        }
+
+        .edit-panel textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 12px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .edit-panel textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .edit-panel .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .edit-panel button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #dddddd;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .edit-panel button:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .edit-panel button.save-btn {
+            background: rgba(100, 200, 100, 0.15);
+            border-color: rgba(100, 200, 100, 0.3);
+        }
+
+        .edit-panel button.save-btn:hover {
+            background: rgba(100, 200, 100, 0.3);
+        }
+
+        .edit-panel button.delete-btn {
+            background: rgba(200, 100, 100, 0.1);
+            border-color: rgba(200, 100, 100, 0.2);
+        }
+
+        .edit-panel button.delete-btn:hover {
+            background: rgba(200, 100, 100, 0.25);
+        }
+
+        /* === ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) === */
+        .center-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 40px;
+            height: 75vh;
+            gap: 20px;
+            opacity: 0;
+            animation: slideInLogo 1.2s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
+        .download-title {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 1.6rem;
+            color: #ffffff;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* === КНОПКА WINDOWS (кликабельная) === */
+        .download-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .download-btn .btn-icon {
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn .btn-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+        .download-btn:hover .btn-icon {
+            border-color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+        }
+
+        .download-btn .btn-label {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 1.2rem;
+            color: #dddddd;
+            letter-spacing: 1px;
+        }
+
+        .download-btn .btn-status {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.8rem;
+            color: #ffd93d;
+            letter-spacing: 1px;
+        }
+
+        /* === КНОПКА ANDROID (НЕ кликабельная) === */
+        .download-btn.android {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .download-btn.android:hover {
+            transform: none;
+        }
+
+        .download-btn.android:hover .btn-icon {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: none;
+        }
+
+        /* === АНИМАЦИИ === */
+        @keyframes slideInLogo {
+            0% {
+                opacity: 0;
+                transform: translateX(-300px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInText {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* === АДАПТАЦИЯ === */
+        @media (max-width: 1200px) {
+            .center-content {
+                height: auto;
+                padding: 20px 0;
+                justify-content: center;
+            }
+            .download-btn .btn-icon {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .news-container {
+                flex: 0 0 340px;
+                max-width: 340px;
+            }
+            .download-btn .btn-icon {
+                width: 90px;
+                height: 90px;
+            }
+            .download-buttons {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+                align-items: flex-start;
+                overflow-y: auto;
+                padding: 20px;
+                gap: 30px;
+                height: auto;
+                min-height: 100vh;
+            }
+            .news-container {
+                flex: 1 1 auto;
+                max-width: 100%;
+                width: 100%;
+                height: 40vh;
+                min-height: 250px;
+            }
+            .center-content {
+                width: 100%;
+                height: auto;
+                min-height: 200px;
+                padding: 10px 0;
+                justify-content: center;
+            }
+            .text-block .line {
+                font-size: 2rem;
+            }
+            .logo img {
+                max-height: 120px;
+            }
+            .left-content {
+                flex-wrap: wrap;
+            }
+            .download-btn .btn-icon {
+                width: 80px;
+                height: 80px;
+            }
+            .download-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .text-block .line {
+                font-size: 1.5rem;
+            }
+            .logo img {
+                max-height: 80px;
+            }
+            .news-header h2 {
+                font-size: 1.3rem;
+            }
+            .news-container {
+                padding: 16px;
+            }
+            .download-btn .btn-icon {
+                width: 70px;
+                height: 70px;
+                border-radius: 12px;
+            }
+            .download-btn .btn-icon img {
+                padding: 8px;
+            }
+            .download-buttons {
+                gap: 20px;
+            }
+            .download-title {
+                font-size: 1rem;
+            }
+            .download-btn .btn-label {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== ЛЕВАЯ ЧАСТЬ ====== -->
+    <div class="left-content">
+        <div class="logo">
+            <img src="logo_web.jpg" alt="Логотип">
+        </div>
+        <div class="text-block">
+            <span class="line">История</span>
+            <span class="line">одного</span>
+            <span class="line">штурма</span>
+        </div>
+    </div>
+
+    <!-- ====== ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) ====== -->
+    <div class="center-content">
+        <div class="download-title">Доступно для скачивания</div>
+        <div class="download-buttons">
+            <!-- Windows (КЛИКАБЕЛЬНО → MediaFire) -->
+            <a href="https://www.mediafire.com/folder/rtx06kkp5t9k2/%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F+%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE+%D1%88%D1%82%D1%83%D1%80%D0%BC%D0%B0" target="_blank" class="download-btn windows">
+                <div class="btn-icon">
+                    <img src="windows.jpg" alt="Windows">
+                </div>
+                <span class="btn-label">Windows</span>
+            </a>
+            <!-- Android (НЕ кликабельно) -->
+            <div class="download-btn android">
+                <div class="btn-icon">
+                    <img src="android.png" alt="Android">
+                </div>
+                <span class="btn-label">Android</span>
+                <span class="btn-status">⏳ в разработке</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== ОКНО НОВОСТЕЙ ====== -->
+    <div class="news-container" id="newsContainer">
+        <div class="news-header">
+            <h2>📰 Новости</h2>
+            <button class="edit-toggle" id="editToggle">✏️ Править</button>
+        </div>
+
+        <div class="news-list" id="newsList"></div>
+
+        <div class="edit-panel" id="editPanel">
+            <textarea id="newsInput" placeholder="Введите новость..."></textarea>
+            <div class="btn-row">
+                <button class="save-btn" id="saveNews">➕ Добавить</button>
+                <button id="clearNews" class="delete-btn">🗑️ Очистить</button>
+                <button id="closeEdit">✖️ Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================
+        //  НОВОСТИ С СОХРАНЕНИЕМ В localStorage
+        // =========================================
+
+        const STORAGE_KEY = 'game_news_data';
+        const EDITOR_PASSWORD = 'штурм2024';
+
+        const newsList = document.getElementById('newsList');
+        const editToggle = document.getElementById('editToggle');
+        const editPanel = document.getElementById('editPanel');
+        const newsInput = document.getElementById('newsInput');
+        const saveBtn = document.getElementById('saveNews');
+        const clearBtn = document.getElementById('clearNews');
+        const closeBtn = document.getElementById('closeEdit');
+
+        function loadNews() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            const defaultNews = [
+                { date: '13.07.2026', text: 'Старт закрытого бета-тестирования!' },
+                { date: '12.07.2026', text: 'Добавлен новый уровень "Ледяные пещеры"' },
+                { date: '10.07.2026', text: 'Исправлены критические ошибки' }
+            ];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultNews));
+            return defaultNews;
+        }
+
+        function renderNews() {
+            const news = loadNews();
+            newsList.innerHTML = '';
+            if (news.length === 0) {
+                newsList.innerHTML = '<div class="news-item" style="color:#666;text-align:center;padding:30px 0;">Новостей пока нет</div>';
+                return;
+            }
+            const reversed = [...news].reverse();
+            reversed.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'news-item';
+                div.innerHTML = `
+                    <span class="news-date">${item.date}</span>
+                    ${item.text}
+                `;
+                newsList.appendChild(div);
+            });
+        }
+
+        function addNews(text) {
+            if (!text.trim()) return;
+            const news = loadNews();
+            const now = new Date();
+            const date = now.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            news.push({ date: date, text: text.trim() });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(news));
+            renderNews();
+            newsInput.value = '';
+        }
+
+        function clearAllNews() {
+            if (confirm('Удалить все новости?')) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+                renderNews();
+            }
+        }
+
+        function checkPassword() {
+            const pass = prompt('Введите пароль для редактирования:');
+            return pass === EDITOR_PASSWORD;
+        }
+
+        editToggle.addEventListener('click', function() {
+            if (editPanel.classList.contains('active')) {
+                editPanel.classList.remove('active');
+                editToggle.textContent = '✏️ Править';
+                return;
+            }
+            if (!checkPassword()) {
+                alert('Неверный пароль!');
+                return;
+            }
+            editPanel.classList.add('active');
+            editToggle.textContent = '✖️ Закрыть';
+            newsInput.focus();
+        });
+
+        closeBtn.addEventListener('click', function() {
+            editPanel.classList.remove('active');
+            editToggle.textContent = '✏️ Править';
+        });
+
+        saveBtn.addEventListener('click', function() {
+            addNews(newsInput.value);
+        });
+
+        newsInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                addNews(newsInput.value);
+            }
+        });
+
+        clearBtn.addEventListener('click', clearAllNews);
+
+        renderNews();
+
+        console.log('✅ Новости загружены. Пароль: ' + EDITOR_PASSWORD);
+    </script>
+
+</body>
+</html>
