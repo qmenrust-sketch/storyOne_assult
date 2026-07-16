@@ -537,11 +537,11 @@
             if (stored) {
                 return JSON.parse(stored);
             }
-            // === НОВЫЕ НОВОСТИ ПО УМОЛЧАНИЮ ===
+            // === НОВОСТИ ПО УМОЛЧАНИЮ (исправлено "реворк") ===
             const defaultNews = [
                 { date: '16.07.2026', text: 'запуск закрытого бета теста' },
-                { date: '16.07.2026', text: 'ревор поведения ботов' },
-                { date: '16.07.2026', text: 'ревор игровой карты' }
+                { date: '16.07.2026', text: 'реворк поведения ботов' },
+                { date: '16.07.2026', text: 'реворк игровой карты' }
             ];
             localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultNews));
             return defaultNews;
