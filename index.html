@@ -267,7 +267,6 @@
             justify-content: center;
         }
 
-        /* === КНОПКА WINDOWS (кликабельная) === */
         .download-btn {
             display: flex;
             flex-direction: column;
@@ -482,14 +481,12 @@
     <div class="center-content">
         <div class="download-title">Доступно для скачивания</div>
         <div class="download-buttons">
-            <!-- Windows (КЛИКАБЕЛЬНО → MediaFire) -->
             <a href="https://www.mediafire.com/folder/rtx06kkp5t9k2/%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F+%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE+%D1%88%D1%82%D1%83%D1%80%D0%BC%D0%B0" target="_blank" class="download-btn windows">
                 <div class="btn-icon">
                     <img src="windows.jpg" alt="Windows">
                 </div>
                 <span class="btn-label">Windows</span>
             </a>
-            <!-- Android (НЕ кликабельно) -->
             <div class="download-btn android">
                 <div class="btn-icon">
                     <img src="android.png" alt="Android">
@@ -540,10 +537,11 @@
             if (stored) {
                 return JSON.parse(stored);
             }
+            // === НОВЫЕ НОВОСТИ ПО УМОЛЧАНИЮ ===
             const defaultNews = [
-                { date: '13.07.2026', text: 'Старт закрытого бета-тестирования!' },
-                { date: '12.07.2026', text: 'Добавлен новый уровень "Ледяные пещеры"' },
-                { date: '10.07.2026', text: 'Исправлены критические ошибки' }
+                { date: '16.07.2026', text: 'запуск закрытого бета теста' },
+                { date: '16.07.2026', text: 'ревор поведения ботов' },
+                { date: '16.07.2026', text: 'ревор игровой карты' }
             ];
             localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultNews));
             return defaultNews;
