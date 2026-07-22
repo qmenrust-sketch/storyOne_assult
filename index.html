@@ -481,12 +481,14 @@
     <div class="center-content">
         <div class="download-title">Доступно для скачивания</div>
         <div class="download-buttons">
-            <a href="https://www.mediafire.com/folder/rtx06kkp5t9k2/%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F+%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE+%D1%88%D1%82%D1%83%D1%80%D0%BC%D0%B0" target="_blank" class="download-btn windows">
+            <!-- Windows - ссылка на GitHub Release -->
+            <a href="https://github.com/qmenrust-sketch/storyOne_assult/releases/download/story_one_assault/story.one.assault.0.0.0.3" target="_blank" class="download-btn windows">
                 <div class="btn-icon">
                     <img src="windows.jpg" alt="Windows">
                 </div>
                 <span class="btn-label">Windows</span>
             </a>
+            <!-- Android (НЕ кликабельно) -->
             <div class="download-btn android">
                 <div class="btn-icon">
                     <img src="android.png" alt="Android">
@@ -537,7 +539,7 @@
             if (stored) {
                 return JSON.parse(stored);
             }
-            // === НОВОСТИ ПО УМОЛЧАНИЮ (исправлено "реворк") ===
+            // === НОВОСТИ ПО УМОЛЧАНИЮ ===
             const defaultNews = [
                 { date: '16.07.2026', text: 'запуск закрытого бета теста' },
                 { date: '16.07.2026', text: 'реворк поведения ботов' },
