@@ -10,27 +10,46 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             background: #0a0a0a;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* === ОСНОВНОЙ КОНТЕЙНЕР === */
         body {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        /* === ВНУТРЕННИЙ КОНТЕЙНЕР (всё кроме футера) === */
+        .main-content {
+            display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            padding: 40px;
+            width: 100%;
+            max-width: 1400px;
             gap: 40px;
-            box-sizing: border-box;
+            flex: 1;
         }
 
         /* === ЛЕВАЯ ЧАСТЬ === */
         .left-content {
             display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            flex-shrink: 0;
+            max-width: 450px;
+        }
+
+        /* === ВЕРХНЯЯ ЧАСТЬ (лого + текст) === */
+        .left-header {
+            display: flex;
             align-items: flex-start;
             gap: 30px;
-            flex-shrink: 0;
         }
 
         /* === КАРТИНКА === */
@@ -47,7 +66,7 @@
             display: block;
         }
 
-        /* === ТЕКСТ === */
+        /* === ТЕКСТ НАЗВАНИЯ === */
         .text-block {
             display: flex;
             flex-direction: column;
@@ -70,171 +89,33 @@
             line-height: 1.2;
         }
 
-        /* === ПРАВАЯ ЧАСТЬ (окно новостей) === */
-        .news-container {
-            flex: 0 0 420px;
-            max-width: 420px;
-            height: 75vh;
-            min-height: 350px;
-            border: 3px solid rgba(255, 255, 255, 0.7);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            background: #0a0a0a;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.06), inset 0 0 60px rgba(255, 255, 255, 0.02);
+        /* === КРАСНОЕ СЛОВО "ШТУРМА" === */
+        .text-block .line .highlight {
+            color: #ff0000;
+        }
+
+        /* === ОПИСАНИЕ (под лого и названием) === */
+        .description {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.95rem;
+            color: #ffffff;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
             opacity: 0;
             animation: slideInLogo 1.2s ease-out forwards;
-            animation-delay: 0.3s;
-            position: relative;
-            box-sizing: border-box;
+            animation-delay: 1.4s;
+            padding-right: 10px;
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            padding-left: 16px;
+            margin-top: 5px;
         }
 
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-            padding-bottom: 14px;
-            margin-bottom: 18px;
-        }
-
-        .news-header h2 {
-            font-family: 'Courier New', 'Lucida Console', monospace;
-            font-size: 1.8rem;
+        .description strong {
             color: #ffffff;
-            margin: 0;
-            letter-spacing: 2px;
         }
 
-        .edit-toggle {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #dddddd;
-            padding: 6px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-
-        .edit-toggle:hover {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .news-list {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
-        .news-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .news-list::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
-
-        .news-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 4px;
-        }
-
-        .news-item {
-            color: #eeeeee;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            line-height: 1.5;
-        }
-
-        .news-item:last-child {
-            border-bottom: none;
-        }
-
-        .news-date {
-            color: #99aacc;
-            font-size: 0.75rem;
-            display: block;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        /* === ПАНЕЛЬ РЕДАКТИРОВАНИЯ === */
-        .edit-panel {
-            display: none;
-            margin-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 16px;
-        }
-
-        .edit-panel.active {
-            display: block;
-        }
-
-        .edit-panel textarea {
-            width: 100%;
-            height: 100px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: #ffffff;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            padding: 12px;
-            resize: vertical;
-            box-sizing: border-box;
-        }
-
-        .edit-panel textarea:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .edit-panel .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .edit-panel button {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #dddddd;
-            padding: 8px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-
-        .edit-panel button:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        .edit-panel button.save-btn {
-            background: rgba(100, 200, 100, 0.15);
-            border-color: rgba(100, 200, 100, 0.3);
-        }
-
-        .edit-panel button.save-btn:hover {
-            background: rgba(100, 200, 100, 0.3);
-        }
-
-        .edit-panel button.delete-btn {
-            background: rgba(200, 100, 100, 0.1);
-            border-color: rgba(200, 100, 100, 0.2);
-        }
-
-        .edit-panel button.delete-btn:hover {
-            background: rgba(200, 100, 100, 0.25);
+        .description .highlight {
+            color: #ff0000;
         }
 
         /* === ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) === */
@@ -338,6 +219,151 @@
             box-shadow: none;
         }
 
+        /* === ПРАВАЯ ЧАСТЬ (текстовые кнопки) === */
+        .right-content {
+            flex: 0 0 200px;
+            max-width: 200px;
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 10px;
+            gap: 12px;
+            opacity: 0;
+            animation: slideInLogo 1.2s ease-out forwards;
+            animation-delay: 0.6s;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        /* === БЕЛАЯ ВЕРТИКАЛЬНАЯ ЛИНИЯ === */
+        .right-content::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .right-content .text-btn {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 1.1rem;
+            color: #dddddd;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 6px 0;
+            border-bottom: 1px solid transparent;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .right-content .text-btn:hover {
+            color: #ffffff;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(4px);
+        }
+
+        /* === ВЫПАДАЮЩИЙ БЛОК "СОЦ СЕТИ" === */
+        .social-toggle {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 1.1rem;
+            color: #dddddd;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 6px 0;
+            border-bottom: 1px solid transparent;
+            display: inline-block;
+            width: fit-content;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .social-toggle:hover {
+            color: #ffffff;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(4px);
+        }
+
+        .social-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 8px;
+        }
+
+        .social-dropdown.open {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 6px;
+        }
+
+        .social-dropdown a {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.9rem;
+            color: #aaaaaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 4px 0;
+            border-bottom: 1px solid transparent;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .social-dropdown a:hover {
+            color: #ffffff;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(4px);
+        }
+
+        .social-dropdown .support-link {
+            color: #ffd93d;
+            margin-top: 4px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-dropdown .support-link:hover {
+            color: #ffe066;
+        }
+
+        /* === ФУТЕР === */
+        .footer {
+            width: 100%;
+            max-width: 1400px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 2s;
+        }
+
+        .footer .disclaimer {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.85rem;
+            color: #888888;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .footer .copyright {
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.8rem;
+            color: #666666;
+            letter-spacing: 1px;
+        }
+
         /* === АНИМАЦИИ === */
         @keyframes slideInLogo {
             0% {
@@ -361,6 +387,17 @@
             }
         }
 
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* === АДАПТАЦИЯ === */
         @media (max-width: 1200px) {
             .center-content {
@@ -372,12 +409,30 @@
                 width: 110px;
                 height: 110px;
             }
+            .right-content {
+                flex: 0 0 160px;
+                max-width: 160px;
+                padding-left: 20px;
+            }
+            .right-content .text-btn,
+            .social-toggle {
+                font-size: 1rem;
+            }
+            .left-content {
+                max-width: 350px;
+            }
+            .text-block .line {
+                font-size: 2.2rem;
+            }
+            .description {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 1024px) {
-            .news-container {
-                flex: 0 0 340px;
-                max-width: 340px;
+            .right-content {
+                flex: 0 0 140px;
+                max-width: 140px;
             }
             .download-btn .btn-icon {
                 width: 90px;
@@ -386,24 +441,70 @@
             .download-buttons {
                 gap: 30px;
             }
+            .left-content {
+                max-width: 300px;
+            }
+            .text-block .line {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                max-height: 140px;
+            }
         }
 
         @media (max-width: 850px) {
             body {
+                padding: 20px;
+            }
+            .main-content {
                 flex-direction: column;
                 align-items: flex-start;
-                overflow-y: auto;
-                padding: 20px;
                 gap: 30px;
-                height: auto;
-                min-height: 100vh;
             }
-            .news-container {
+            .left-content {
+                max-width: 100%;
+                width: 100%;
+            }
+            .left-header {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .right-content {
                 flex: 1 1 auto;
                 max-width: 100%;
                 width: 100%;
-                height: 40vh;
-                min-height: 250px;
+                height: auto;
+                min-height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                padding: 0 0 10px 0;
+                gap: 15px 25px;
+                padding-left: 0;
+            }
+            .right-content::before {
+                display: none;
+            }
+            .right-content .text-btn,
+            .social-toggle {
+                font-size: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 6px 0;
+            }
+            .social-dropdown {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px 20px;
+                padding-left: 0;
+            }
+            .social-dropdown a {
+                font-size: 0.85rem;
+            }
+            .social-dropdown .support-link {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 4px;
             }
             .center-content {
                 width: 100%;
@@ -418,15 +519,20 @@
             .logo img {
                 max-height: 120px;
             }
-            .left-content {
-                flex-wrap: wrap;
-            }
             .download-btn .btn-icon {
                 width: 80px;
                 height: 80px;
             }
             .download-title {
                 font-size: 1.2rem;
+            }
+            .description {
+                font-size: 0.9rem;
+                padding-left: 12px;
+            }
+            .footer {
+                margin-top: 20px;
+                padding-top: 20px;
             }
         }
 
@@ -436,12 +542,6 @@
             }
             .logo img {
                 max-height: 80px;
-            }
-            .news-header h2 {
-                font-size: 1.3rem;
-            }
-            .news-container {
-                padding: 16px;
             }
             .download-btn .btn-icon {
                 width: 70px;
@@ -460,177 +560,112 @@
             .download-btn .btn-label {
                 font-size: 1rem;
             }
+            .right-content .text-btn,
+            .social-toggle {
+                font-size: 0.9rem;
+            }
+            .social-dropdown a {
+                font-size: 0.8rem;
+            }
+            .description {
+                font-size: 0.8rem;
+                padding-left: 10px;
+            }
+            .footer .disclaimer {
+                font-size: 0.7rem;
+            }
+            .footer .copyright {
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ====== ЛЕВАЯ ЧАСТЬ ====== -->
-    <div class="left-content">
-        <div class="logo">
-            <img src="logo_web.jpg" alt="Логотип">
-        </div>
-        <div class="text-block">
-            <span class="line">История</span>
-            <span class="line">одного</span>
-            <span class="line">штурма</span>
-        </div>
-    </div>
+    <!-- ====== ОСНОВНОЕ СОДЕРЖИМОЕ ====== -->
+    <div class="main-content">
 
-    <!-- ====== ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) ====== -->
-    <div class="center-content">
-        <div class="download-title">Доступно для скачивания</div>
-        <div class="download-buttons">
-            <!-- Windows - ссылка на GitHub Release -->
-            <a href="https://github.com/qmenrust-sketch/storyOne_assult/releases/download/story_one_assault/story.one.assault.0.0.0.3" target="_blank" class="download-btn windows">
-                <div class="btn-icon">
-                    <img src="windows.jpg" alt="Windows">
+        <!-- ====== ЛЕВАЯ ЧАСТЬ ====== -->
+        <div class="left-content">
+            <div class="left-header">
+                <div class="logo">
+                    <img src="logo_web.jpg" alt="Логотип">
                 </div>
-                <span class="btn-label">Windows</span>
-            </a>
-            <!-- Android (НЕ кликабельно) -->
-            <div class="download-btn android">
-                <div class="btn-icon">
-                    <img src="android.png" alt="Android">
+                <div class="text-block">
+                    <span class="line">История</span>
+                    <span class="line">одного</span>
+                    <span class="line"><span class="highlight">штурма</span></span>
                 </div>
-                <span class="btn-label">Android</span>
-                <span class="btn-status">⏳ в разработке</span>
+            </div>
+
+            <div class="description">
+                <strong>История одного <span class="highlight">штурма</span></strong> — это хардкорный шутер от первого лица, разработанный студией <strong>Q-Game</strong>.
+                <br><br>
+                Игра затрагивает события с 2023 по 2029 год, с участием вымышленных стран и организаций.
+                <br><br>
+                В центре сюжета находится ЧВК <strong>"Череп"</strong> — частная пророссийская армия, которая не так проста, как кажется на первый взгляд.
             </div>
         </div>
-    </div>
 
-    <!-- ====== ОКНО НОВОСТЕЙ ====== -->
-    <div class="news-container" id="newsContainer">
-        <div class="news-header">
-            <h2>📰 Новости</h2>
-            <button class="edit-toggle" id="editToggle">✏️ Править</button>
-        </div>
-
-        <div class="news-list" id="newsList"></div>
-
-        <div class="edit-panel" id="editPanel">
-            <textarea id="newsInput" placeholder="Введите новость..."></textarea>
-            <div class="btn-row">
-                <button class="save-btn" id="saveNews">➕ Добавить</button>
-                <button id="clearNews" class="delete-btn">🗑️ Очистить</button>
-                <button id="closeEdit">✖️ Закрыть</button>
+        <!-- ====== ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) ====== -->
+        <div class="center-content">
+            <div class="download-title">Доступно для скачивания</div>
+            <div class="download-buttons">
+                <a href="https://github.com/qmenrust-sketch/storyOne_assult/releases/download/story_one_assault/story.one.assault.0.0.0.3" target="_blank" class="download-btn windows">
+                    <div class="btn-icon">
+                        <img src="windows.jpg" alt="Windows">
+                    </div>
+                    <span class="btn-label">Windows</span>
+                </a>
+                <div class="download-btn android">
+                    <div class="btn-icon">
+                        <img src="android.png" alt="Android">
+                    </div>
+                    <span class="btn-label">Android</span>
+                    <span class="btn-status">⏳ в разработке</span>
+                </div>
             </div>
         </div>
+
+        <!-- ====== ПРАВАЯ ЧАСТЬ ====== -->
+        <div class="right-content">
+            <!-- ССЫЛКА НА СТРАНИЦУ АРХИВА -->
+            <a href="file_archive.html" class="text-btn">Архив версий</a>
+            <!-- ОБНОВЛЕННАЯ ССЫЛКА НА СТРАНИЦУ WIKI -->
+            <a href="wiki.html" class="text-btn">Wiki</a>
+
+            <!-- Кнопка "Соц сети" с выпадающим списком -->
+            <div>
+                <div class="social-toggle" id="socialToggle">Соц сети ▼</div>
+                <div class="social-dropdown" id="socialDropdown">
+                    <a href="https://www.youtube.com/@Q_game1HOA" target="_blank">YouTube</a>
+                    <a href="https://www.tiktok.com/@story1assault" target="_blank">TikTok</a>
+                    <a href="https://t.me/Q1game_1" target="_blank">Telegram</a>
+                    <a href="https://www.donationalerts.com/r/Qmen_official" target="_blank" class="support-link">ПОДДЕРЖИТЕ НАС</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ====== ФУТЕР ====== -->
+    <div class="footer">
+        <div class="disclaimer">
+            Все события, персонажи и так далее являются вымышленными, любые совпадения случайны.<br>
+            Мы ничего не пропагандируем и не навязываем. Все показанное — художественный вымысел.
+        </div>
+        <div class="copyright">© 2026 Q-Game Studio</div>
     </div>
 
     <script>
-        // =========================================
-        //  НОВОСТИ С СОХРАНЕНИЕМ В localStorage
-        // =========================================
+        // === РАСКРЫТИЕ СПИСКА СОЦ СЕТЕЙ ===
+        const toggle = document.getElementById('socialToggle');
+        const dropdown = document.getElementById('socialDropdown');
 
-        const STORAGE_KEY = 'game_news_data';
-        const EDITOR_PASSWORD = 'штурм2024';
-
-        const newsList = document.getElementById('newsList');
-        const editToggle = document.getElementById('editToggle');
-        const editPanel = document.getElementById('editPanel');
-        const newsInput = document.getElementById('newsInput');
-        const saveBtn = document.getElementById('saveNews');
-        const clearBtn = document.getElementById('clearNews');
-        const closeBtn = document.getElementById('closeEdit');
-
-        function loadNews() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                return JSON.parse(stored);
-            }
-            // === НОВОСТИ ПО УМОЛЧАНИЮ ===
-            const defaultNews = [
-                { date: '16.07.2026', text: 'запуск закрытого бета теста' },
-                { date: '16.07.2026', text: 'реворк поведения ботов' },
-                { date: '16.07.2026', text: 'реворк игровой карты' }
-            ];
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultNews));
-            return defaultNews;
-        }
-
-        function renderNews() {
-            const news = loadNews();
-            newsList.innerHTML = '';
-            if (news.length === 0) {
-                newsList.innerHTML = '<div class="news-item" style="color:#666;text-align:center;padding:30px 0;">Новостей пока нет</div>';
-                return;
-            }
-            const reversed = [...news].reverse();
-            reversed.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'news-item';
-                div.innerHTML = `
-                    <span class="news-date">${item.date}</span>
-                    ${item.text}
-                `;
-                newsList.appendChild(div);
-            });
-        }
-
-        function addNews(text) {
-            if (!text.trim()) return;
-            const news = loadNews();
-            const now = new Date();
-            const date = now.toLocaleDateString('ru-RU', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-            news.push({ date: date, text: text.trim() });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(news));
-            renderNews();
-            newsInput.value = '';
-        }
-
-        function clearAllNews() {
-            if (confirm('Удалить все новости?')) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
-                renderNews();
-            }
-        }
-
-        function checkPassword() {
-            const pass = prompt('Введите пароль для редактирования:');
-            return pass === EDITOR_PASSWORD;
-        }
-
-        editToggle.addEventListener('click', function() {
-            if (editPanel.classList.contains('active')) {
-                editPanel.classList.remove('active');
-                editToggle.textContent = '✏️ Править';
-                return;
-            }
-            if (!checkPassword()) {
-                alert('Неверный пароль!');
-                return;
-            }
-            editPanel.classList.add('active');
-            editToggle.textContent = '✖️ Закрыть';
-            newsInput.focus();
+        toggle.addEventListener('click', function() {
+            const isOpen = dropdown.classList.toggle('open');
+            toggle.textContent = isOpen ? 'Соц сети ▲' : 'Соц сети ▼';
         });
-
-        closeBtn.addEventListener('click', function() {
-            editPanel.classList.remove('active');
-            editToggle.textContent = '✏️ Править';
-        });
-
-        saveBtn.addEventListener('click', function() {
-            addNews(newsInput.value);
-        });
-
-        newsInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                addNews(newsInput.value);
-            }
-        });
-
-        clearBtn.addEventListener('click', clearAllNews);
-
-        renderNews();
-
-        console.log('✅ Новости загружены. Пароль: ' + EDITOR_PASSWORD);
     </script>
 
 </body>
