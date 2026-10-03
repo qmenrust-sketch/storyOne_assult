@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>История одного штурма</title>
+    <title>TRIADA SIMULATOR</title>
     <style>
-        /* === ТЕМНЫЙ ФОН === */
+        /* === ТЁМНО-СЕРЫЙ ФОН === */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             min-height: 100vh;
-            background: #0a0a0a;
+            background: #1a1a1a;
             overflow-x: hidden;
         }
 
@@ -24,7 +24,7 @@
             box-sizing: border-box;
         }
 
-        /* === ВНУТРЕННИЙ КОНТЕЙНЕР (всё кроме футера) === */
+        /* === ВНУТРЕННИЙ КОНТЕЙНЕР === */
         .main-content {
             display: flex;
             align-items: flex-start;
@@ -45,7 +45,6 @@
             max-width: 450px;
         }
 
-        /* === ВЕРХНЯЯ ЧАСТЬ (лого + текст) === */
         .left-header {
             display: flex;
             align-items: flex-start;
@@ -89,36 +88,39 @@
             line-height: 1.2;
         }
 
-        /* === КРАСНОЕ СЛОВО "ШТУРМА" === */
         .text-block .line .highlight {
             color: #ff0000;
         }
 
-        /* === ОПИСАНИЕ (под лого и названием) === */
-        .description {
-            font-family: 'Courier New', 'Lucida Console', monospace;
-            font-size: 0.95rem;
-            color: #ffffff;
-            line-height: 1.6;
-            letter-spacing: 0.5px;
+        /* === СКРИНШОТЫ === */
+        .screenshots {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
             opacity: 0;
             animation: slideInLogo 1.2s ease-out forwards;
             animation-delay: 1.4s;
-            padding-right: 10px;
-            border-left: 2px solid rgba(255, 255, 255, 0.15);
-            padding-left: 16px;
-            margin-top: 5px;
         }
 
-        .description strong {
-            color: #ffffff;
+        .screenshots img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            display: block;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
 
-        .description .highlight {
-            color: #ff0000;
+        .screenshots img:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
         }
 
-        /* === ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) === */
+        /* === ЦЕНТРАЛЬНАЯ ЧАСТЬ === */
         .center-content {
             flex: 1;
             display: flex;
@@ -203,7 +205,7 @@
             letter-spacing: 1px;
         }
 
-        /* === КНОПКА ANDROID (НЕ кликабельная) === */
+        /* === ANDROID (некликабельно) === */
         .download-btn.android {
             cursor: default;
             pointer-events: none;
@@ -219,7 +221,7 @@
             box-shadow: none;
         }
 
-        /* === ПРАВАЯ ЧАСТЬ (текстовые кнопки) === */
+        /* === ПРАВАЯ ЧАСТЬ === */
         .right-content {
             flex: 0 0 200px;
             max-width: 200px;
@@ -236,7 +238,6 @@
             padding-left: 30px;
         }
 
-        /* === БЕЛАЯ ВЕРТИКАЛЬНАЯ ЛИНИЯ === */
         .right-content::before {
             content: '';
             position: absolute;
@@ -267,7 +268,7 @@
             transform: translateX(4px);
         }
 
-        /* === ВЫПАДАЮЩИЙ БЛОК "СОЦ СЕТИ" === */
+        /* === СОЦ СЕТИ === */
         .social-toggle {
             font-family: 'Courier New', 'Lucida Console', monospace;
             font-size: 1.1rem;
@@ -366,217 +367,79 @@
 
         /* === АНИМАЦИИ === */
         @keyframes slideInLogo {
-            0% {
-                opacity: 0;
-                transform: translateX(-300px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            0% { opacity: 0; transform: translateX(-300px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes slideInText {
-            0% {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         /* === АДАПТАЦИЯ === */
         @media (max-width: 1200px) {
-            .center-content {
-                height: auto;
-                padding: 20px 0;
-                justify-content: center;
-            }
-            .download-btn .btn-icon {
-                width: 110px;
-                height: 110px;
-            }
-            .right-content {
-                flex: 0 0 160px;
-                max-width: 160px;
-                padding-left: 20px;
-            }
-            .right-content .text-btn,
-            .social-toggle {
-                font-size: 1rem;
-            }
-            .left-content {
-                max-width: 350px;
-            }
-            .text-block .line {
-                font-size: 2.2rem;
-            }
-            .description {
-                font-size: 0.85rem;
-            }
+            .center-content { height: auto; padding: 20px 0; justify-content: center; }
+            .download-btn .btn-icon { width: 110px; height: 110px; }
+            .right-content { flex: 0 0 160px; max-width: 160px; padding-left: 20px; }
+            .right-content .text-btn, .social-toggle { font-size: 1rem; }
+            .left-content { max-width: 350px; }
+            .text-block .line { font-size: 2.2rem; }
+            .screenshots img { max-width: 350px; }
         }
 
         @media (max-width: 1024px) {
-            .right-content {
-                flex: 0 0 140px;
-                max-width: 140px;
-            }
-            .download-btn .btn-icon {
-                width: 90px;
-                height: 90px;
-            }
-            .download-buttons {
-                gap: 30px;
-            }
-            .left-content {
-                max-width: 300px;
-            }
-            .text-block .line {
-                font-size: 1.8rem;
-            }
-            .logo img {
-                max-height: 140px;
-            }
+            .right-content { flex: 0 0 140px; max-width: 140px; }
+            .download-btn .btn-icon { width: 90px; height: 90px; }
+            .download-buttons { gap: 30px; }
+            .left-content { max-width: 300px; }
+            .text-block .line { font-size: 1.8rem; }
+            .logo img { max-height: 140px; }
+            .screenshots img { max-width: 300px; }
         }
 
         @media (max-width: 850px) {
-            body {
-                padding: 20px;
-            }
-            .main-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 30px;
-            }
-            .left-content {
-                max-width: 100%;
-                width: 100%;
-            }
-            .left-header {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
+            body { padding: 20px; }
+            .main-content { flex-direction: column; align-items: flex-start; gap: 30px; }
+            .left-content { max-width: 100%; width: 100%; }
+            .left-header { flex-wrap: wrap; gap: 15px; }
+            .screenshots img { max-width: 100%; }
             .right-content {
-                flex: 1 1 auto;
-                max-width: 100%;
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                padding: 0 0 10px 0;
-                gap: 15px 25px;
-                padding-left: 0;
+                flex: 1 1 auto; max-width: 100%; width: 100%; height: auto; min-height: auto;
+                flex-direction: row; flex-wrap: wrap; justify-content: flex-start;
+                padding: 0 0 10px 0; gap: 15px 25px; padding-left: 0;
             }
-            .right-content::before {
-                display: none;
+            .right-content::before { display: none; }
+            .right-content .text-btn, .social-toggle {
+                font-size: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 0;
             }
-            .right-content .text-btn,
-            .social-toggle {
-                font-size: 1rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-                padding: 6px 0;
-            }
-            .social-dropdown {
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 10px 20px;
-                padding-left: 0;
-            }
-            .social-dropdown a {
-                font-size: 0.85rem;
-            }
-            .social-dropdown .support-link {
-                border-top: none;
-                margin-top: 0;
-                padding-top: 4px;
-            }
-            .center-content {
-                width: 100%;
-                height: auto;
-                min-height: 200px;
-                padding: 10px 0;
-                justify-content: center;
-            }
-            .text-block .line {
-                font-size: 2rem;
-            }
-            .logo img {
-                max-height: 120px;
-            }
-            .download-btn .btn-icon {
-                width: 80px;
-                height: 80px;
-            }
-            .download-title {
-                font-size: 1.2rem;
-            }
-            .description {
-                font-size: 0.9rem;
-                padding-left: 12px;
-            }
-            .footer {
-                margin-top: 20px;
-                padding-top: 20px;
-            }
+            .social-dropdown { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 10px 20px; padding-left: 0; }
+            .social-dropdown a { font-size: 0.85rem; }
+            .social-dropdown .support-link { border-top: none; margin-top: 0; padding-top: 4px; }
+            .center-content { width: 100%; height: auto; min-height: 200px; padding: 10px 0; justify-content: center; }
+            .text-block .line { font-size: 2rem; }
+            .logo img { max-height: 120px; }
+            .download-btn .btn-icon { width: 80px; height: 80px; }
+            .download-title { font-size: 1.2rem; }
+            .footer { margin-top: 20px; padding-top: 20px; }
         }
 
         @media (max-width: 500px) {
-            .text-block .line {
-                font-size: 1.5rem;
-            }
-            .logo img {
-                max-height: 80px;
-            }
-            .download-btn .btn-icon {
-                width: 70px;
-                height: 70px;
-                border-radius: 12px;
-            }
-            .download-btn .btn-icon img {
-                padding: 8px;
-            }
-            .download-buttons {
-                gap: 20px;
-            }
-            .download-title {
-                font-size: 1rem;
-            }
-            .download-btn .btn-label {
-                font-size: 1rem;
-            }
-            .right-content .text-btn,
-            .social-toggle {
-                font-size: 0.9rem;
-            }
-            .social-dropdown a {
-                font-size: 0.8rem;
-            }
-            .description {
-                font-size: 0.8rem;
-                padding-left: 10px;
-            }
-            .footer .disclaimer {
-                font-size: 0.7rem;
-            }
-            .footer .copyright {
-                font-size: 0.7rem;
-            }
+            .text-block .line { font-size: 1.5rem; }
+            .logo img { max-height: 80px; }
+            .download-btn .btn-icon { width: 70px; height: 70px; border-radius: 12px; }
+            .download-btn .btn-icon img { padding: 8px; }
+            .download-buttons { gap: 20px; }
+            .download-title { font-size: 1rem; }
+            .download-btn .btn-label { font-size: 1rem; }
+            .right-content .text-btn, .social-toggle { font-size: 0.9rem; }
+            .social-dropdown a { font-size: 0.8rem; }
+            .footer .disclaimer { font-size: 0.7rem; }
+            .footer .copyright { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -592,26 +455,25 @@
                     <img src="logo_web.jpg" alt="Логотип">
                 </div>
                 <div class="text-block">
-                    <span class="line">История</span>
-                    <span class="line">одного</span>
-                    <span class="line"><span class="highlight">штурма</span></span>
+                    <span class="line">TRIADA</span>
+                    <span class="line"><span class="highlight">SIMULATOR</span></span>
                 </div>
             </div>
 
-            <div class="description">
-                <strong>История одного <span class="highlight">штурма</span></strong> — это хардкорный шутер от первого лица, разработанный студией <strong>Q-Game</strong>.
-                <br><br>
-                Игра затрагивает события с 2023 по 2029 год, с участием вымышленных стран и организаций.
-                <br><br>
-                В центре сюжета находится ЧВК <strong>"Череп"</strong> — частная пророссийская армия, которая не так проста, как кажется на первый взгляд.
+            <!-- СКРИНШОТЫ ИЗ ИГРЫ -->
+            <div class="screenshots">
+                <img src="1.jpg" alt="Скриншот 1">
+                <img src="2.jpg" alt="Скриншот 2">
+                <img src="3.jpg" alt="Скриншот 3">
             </div>
         </div>
 
-        <!-- ====== ЦЕНТРАЛЬНАЯ ЧАСТЬ (кнопки скачивания) ====== -->
+        <!-- ====== ЦЕНТРАЛЬНАЯ ЧАСТЬ ====== -->
         <div class="center-content">
             <div class="download-title">Доступно для скачивания</div>
             <div class="download-buttons">
-                <a href="https://github.com/qmenrust-sketch/storyOne_assult/releases/download/story_one_assault/story.one.assault.0.0.0.3" target="_blank" class="download-btn windows">
+                <!-- ОБНОВЛЁННАЯ ССЫЛКА НА БИЛД -->
+                <a href="https://github.com/qmenrust-sketch/storyOne_assult/releases/download/triada_sim/triadasimulator.exe" target="_blank" class="download-btn windows">
                     <div class="btn-icon">
                         <img src="windows.jpg" alt="Windows">
                     </div>
@@ -629,12 +491,9 @@
 
         <!-- ====== ПРАВАЯ ЧАСТЬ ====== -->
         <div class="right-content">
-            <!-- ССЫЛКА НА СТРАНИЦУ АРХИВА -->
             <a href="file_archive.html" class="text-btn">Архив версий</a>
-            <!-- ОБНОВЛЕННАЯ ССЫЛКА НА СТРАНИЦУ WIKI -->
-            <a href="wiki.html" class="text-btn">Wiki</a>
+            <span class="text-btn" style="cursor: default; pointer-events: none; color: #555555;">Wiki</span>
 
-            <!-- Кнопка "Соц сети" с выпадающим списком -->
             <div>
                 <div class="social-toggle" id="socialToggle">Соц сети ▼</div>
                 <div class="social-dropdown" id="socialDropdown">
